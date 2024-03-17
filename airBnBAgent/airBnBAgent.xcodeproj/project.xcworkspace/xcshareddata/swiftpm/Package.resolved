@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "openai",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/MacPaw/OpenAI.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "f1c05f54aab419c1de921672031a50a106882878"
+      }
+    },
+    {
+      "identity" : "pipeable-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/PipeableHQ/pipeable-ios.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "13c0f0982a4f5aa5505bb3387bae0a6bd71f8468"
+      }
+    }
+  ],
+  "version" : 2
+}
