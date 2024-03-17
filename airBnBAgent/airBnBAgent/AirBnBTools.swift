@@ -8,9 +8,14 @@ enum AirBnbToolError: Error {
 
 class AirBnBTools {
     /*
-    This is the main class that interacts with the AirBnB website. It uses PipeableSDK to interact with the website and
-    uses GPT to extract the user's requirements and carry out the search. Extracting the user's requirements is done
-    using GPT function calls.
+    This is the main class that interacts with the AirBnB website.
+    * We use PipeableSDK to interact with the website.
+    * We expose a list of tools (see `tools` below) that the Agent can provide to OpenAI.
+    * We also expose a function `maybeCallTool` that the Agent can call when GPT calls a tool, this handles 
+      parsing the arguments for the tool call and storing them in the appropriate properties.
+    * We also expose a function `stepCompleted` that the Agent can call when all tools in an OpenAI response have been 
+      called, this function takes any action that might require the results of multiple tool calls.
+    * We expose a `login` function that the WebView can call to log the user in to AirBnB.
     */
     private var page: PipeablePage
 
@@ -40,7 +45,7 @@ class AirBnBTools {
     }
 
     // Function for GPT to call to record the user's destination choice
-    let selectDestinationFn = ChatQuery.ChatCompletionToolParam(function: .init(
+    private let selectDestinationFn = ChatQuery.ChatCompletionToolParam(function: .init(
         name: "selectDestination",
         description: "Select a destination from the dropdown",
         parameters: .init(
@@ -53,12 +58,12 @@ class AirBnBTools {
     ))
 
     // Used to decode GPT's JSON for function call
-    struct SelectDestinationParams: Codable {
+    private struct SelectDestinationParams: Codable {
         let destination: String
     }
 
     // Function for GPT to call to record the user's travel dates
-    let selectDatesFn = ChatQuery.ChatCompletionToolParam(function: .init(
+    private let selectDatesFn = ChatQuery.ChatCompletionToolParam(function: .init(
         name: "selectDates",
         description: "Select the check-in and check-out dates",
         parameters: .init(
@@ -72,13 +77,13 @@ class AirBnBTools {
     ))
 
     // Used to decode GPT's JSON for function call
-    struct SelectDatesParams: Codable {
+    private struct SelectDatesParams: Codable {
         let checkIn: String
         let checkOut: String
     }
 
     // Function for GPT to call to record the user's requested number of guests
-    let selectGuestsFn = ChatQuery.ChatCompletionToolParam(function: .init(
+    private let selectGuestsFn = ChatQuery.ChatCompletionToolParam(function: .init(
         name: "selectGuests",
         description: "Select the number of guests",
         parameters: .init(
@@ -94,7 +99,7 @@ class AirBnBTools {
     ))
 
     // Used to decode GPT's JSON for function call
-    struct SelectGuestsParams: Codable {
+    private struct SelectGuestsParams: Codable {
         let adults: Int
         let children: Int
         let infants: Int
@@ -103,7 +108,7 @@ class AirBnBTools {
 
     // Uses PipeableSDK to carry out a search on behalf of the user once GPT has recorded the user's
     // travel requirements as GPT function calls.
-    func searchDestinations(
+    private func searchDestinations(
         place: String,
         startDate: String,
         endDate: String,
@@ -191,7 +196,7 @@ class AirBnBTools {
         try await Task.sleep(nanoseconds: 1000 * 1_000_000)
     }
 
-    let selectFiltersFn = ChatQuery.ChatCompletionToolParam(function: .init(
+    private let selectFiltersFn = ChatQuery.ChatCompletionToolParam(function: .init(
         name: "selectFilters",
         description: "Select filters to refine search results",
         parameters: .init(
@@ -206,7 +211,7 @@ class AirBnBTools {
         )
     ))
 
-    struct AirBnBFilters: Codable {
+    private struct AirBnBFilters: Codable {
         enum TypeOfPlace: String, Codable {
             case anyType = "Any type"
             case room = "Room"
@@ -222,7 +227,7 @@ class AirBnBTools {
 
     // Uses PipeableSDK to apply filters to the search results once GPT has recorded the user's
     // filter requirements as GPT function calls.
-    func applyFilters(filters: AirBnBFilters) async throws {
+    private func applyFilters(filters: AirBnBFilters) async throws {
         let buttonFilter = try await page.waitForSelector("button[aria-label='Show filters']", visible: true)
         try? await buttonFilter?.click()
 
@@ -321,7 +326,8 @@ class AirBnBTools {
         ]
     }
 
-    // Records the tools that were called and takes action if the tool matched one of our tools
+    // Called by the Agent for each tool call that is returned by OpenAI, returns
+    // true if the tool call was matched and handled.
     func maybeCallTool(name: String, jsonArgs: Data) throws -> Bool {
         var matched = true
         switch name {
