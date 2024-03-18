@@ -8,18 +8,19 @@ enum ResultStatus {
     case failure
 }
 
-struct Pipeable_WebView: View {
+struct AirBnBAgentWebView: View {
+    @Binding var prompt: String
     var onClose: () -> Void
     var onResult: (ResultStatus) -> Void
-
+    
     @State var working = false
     @State var done = false
     @State var statusText = ""
     @State var statusAnimated: Bool = false
-
+    
     var body: some View {
         ZStack {
-            WebViewWrapper(onClose: onClose, onStatusChange: onStatusChange)
+            WebViewWrapper(prompt: prompt, onClose: onClose, onStatusChange: onStatusChange)
 //                .blur(radius: working ? 1.0 : 0)
                 .allowsHitTesting(!working)
 
@@ -67,26 +68,30 @@ enum Status {
 }
 
 struct WebViewWrapper: UIViewControllerRepresentable {
+    var prompt: String
     var onClose: () -> Void
     var onStatusChange: (_ status: Status) -> Void
     var initialized: Bool = false
 
-    init(onClose: @escaping () -> Void, onStatusChange: @escaping (_ status: Status) -> Void) {
+    init(prompt: String, onClose: @escaping () -> Void, onStatusChange: @escaping (_ status: Status) -> Void) {
+        self.prompt = prompt
         self.onClose = onClose
         self.onStatusChange = onStatusChange
+        print("webviewwrapper: \(prompt)")
     }
 
-    // This function makes the WKWebView
     func makeUIViewController(context _: UIViewControllerRepresentableContext<WebViewWrapper>) -> WKWebViewController {
         let uiViewController = WKWebViewController()
         uiViewController.onClose = onClose
         uiViewController.onStatusChange = onStatusChange
+        uiViewController.prompt = prompt
 
         return uiViewController
     }
 
-    // This function is called when the WKWebView is created to load the request
     func updateUIViewController(_ uiViewController: WKWebViewController, context _: UIViewControllerRepresentableContext<WebViewWrapper>) {
+//        print("PROMPT: \(self.prompt)")
+
         if uiViewController.isStarted {
             return
         }
@@ -103,10 +108,11 @@ struct WebViewWrapper: UIViewControllerRepresentable {
 
 class WKWebViewController: UIViewController {
     /*
-    This class handles initializing the WKWebView and setting up the toolbar. Additionally,
-    it handles initializing the PipeablePage, Agent, and AirBnBTools, and orchestrating the automation.
-    */
+     This class handles initializing the WKWebView and setting up the toolbar. Additionally,
+     it handles initializing the PipeablePage, Agent, and AirBnBTools, and orchestrating the automation.
+     */
     var webView: WKWebView!
+    var prompt: String!
     var isStarted: Bool = false
     var onClose: (() -> Void)!
     var onStatusChange: ((_ status: Status) -> Void)!
@@ -118,8 +124,6 @@ class WKWebViewController: UIViewController {
 
         // set user agent to get around google oauth issues
         let webViewConfiguration = WKWebViewConfiguration()
-
-        // to get around google oauth
         webViewConfiguration.applicationNameForUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.3.1 Mobile/15E148 Safari/604.1"
 
         // Set up resizing rules.
@@ -168,14 +172,15 @@ class WKWebViewController: UIViewController {
             let airBnbTools = AirBnBTools(page: page)
 
             onStatusChange(.login)
-            try await airBnbTools.login()
+            _ = try await page.goto("https://www.airbnb.com")
+//            try await airBnbTools.login()
 
             onStatusChange(.working)
 
-            let agent = Agent(airBnBTools: airBnbTools, openAIAPIToken: "YOUR_OPENAI_API_KEY")
-            let msg = "Book a place in Seoul for 2 adults on March 20th to March 22nd, 2024 and enable instant book for a place that costs between $100 and $150 per night, and book the entire place."
+            let agent = Agent(airBnBTools: airBnbTools, openAIAPIToken: "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")
+//            let msg = "Book a place in Seoul for 2 adults on March 20th to March 22nd, 2024 and enable instant book for a place that costs between $100 and $150 per night, and book the entire place."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
 
-            var res = try await agent.step(message: msg)
+            var res = try await agent.step(message: prompt)
             print(res)
             while !res.done {
                 try await Task.sleep(nanoseconds: 2000 * 1_000_000)
@@ -229,24 +234,6 @@ public func getCookiesJSON(webView: WKWebView) async throws -> String {
     }
 }
 
-public func getUserAgent(webView: WKWebView) async throws -> String {
-    return try await withCheckedThrowingContinuation { continuation in
-        Task {
-            await MainActor.run {
-                webView.evaluateJavaScript("navigator.userAgent") { result, error in
-                    if let error = error {
-                        continuation.resume(throwing: error)
-                    } else if let userAgent = result as? String {
-                        continuation.resume(returning: userAgent)
-                    } else {
-                        continuation.resume(returning: "")
-                    }
-                }
-            }
-        }
-    }
-}
-
 class BlockBarButtonItem: UIBarButtonItem {
     private var actionHandler: (() -> Void)?
 
@@ -265,9 +252,4 @@ class BlockBarButtonItem: UIBarButtonItem {
     @objc func barButtonItemPressed(sender _: UIBarButtonItem) {
         actionHandler?()
     }
-}
-
-func randomString(length: Int) -> String {
-    let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-    return String((0 ..< length).map { _ in characters.randomElement()! })
 }

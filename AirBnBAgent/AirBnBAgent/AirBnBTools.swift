@@ -126,7 +126,7 @@ class AirBnBTools {
         try await destionationInputEl?.click()
 
         //
-        try await destionationInputEl?.type(place, 100)
+        try await destionationInputEl?.type(place, delay: 100)
 
         try await Task.sleep(nanoseconds: 200 * 1_000_000)
 

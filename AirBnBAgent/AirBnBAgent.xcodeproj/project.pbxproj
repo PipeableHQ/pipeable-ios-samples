@@ -11,14 +11,29 @@
 		2B457A9F2BA7A46900B3A7DC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B457A9E2BA7A46900B3A7DC /* ContentView.swift */; };
 		2B457AA12BA7A46F00B3A7DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B457AA02BA7A46F00B3A7DC /* Assets.xcassets */; };
 		2B457AA42BA7A46F00B3A7DC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B457AA32BA7A46F00B3A7DC /* Preview Assets.xcassets */; };
-		2B457AAC2BA7A4C100B3A7DC /* PipeableSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 2B457AAB2BA7A4C100B3A7DC /* PipeableSDK */; };
+		2B457AAC2BA7A4C100B3A7DC /* PipeableSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 2B457AAB2BA7A4C100B3A7DC /* PipeableSDK */; settings = {ATTRIBUTES = (Required, ); }; };
 		2B457AAF2BA7A5A400B3A7DC /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 2B457AAE2BA7A5A400B3A7DC /* OpenAI */; };
 		2B886D792BA7A705007DB63D /* AirBnBTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B886D762BA7A705007DB63D /* AirBnBTools.swift */; };
 		2B886D7A2BA7A705007DB63D /* Agent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B886D772BA7A705007DB63D /* Agent.swift */; };
 		2B886D7B2BA7A705007DB63D /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B886D782BA7A705007DB63D /* WebView.swift */; };
 		2B886D7D2BA7A785007DB63D /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B886D7C2BA7A785007DB63D /* ToastView.swift */; };
 		2B886D7F2BA7A7B6007DB63D /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B886D7E2BA7A7B6007DB63D /* StatusView.swift */; };
+		A44777592BA8E4900081C823 /* PipeableSDK in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 2B457AAB2BA7A4C100B3A7DC /* PipeableSDK */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A447775A2BA8E4900081C823 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A44777592BA8E4900081C823 /* PipeableSDK in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2B457A992BA7A46900B3A7DC /* AirBnBAgent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AirBnBAgent.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +111,7 @@
 				2B457A952BA7A46900B3A7DC /* Sources */,
 				2B457A962BA7A46900B3A7DC /* Frameworks */,
 				2B457A972BA7A46900B3A7DC /* Resources */,
+				A447775A2BA8E4900081C823 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -304,6 +320,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AirBnBAgent/Preview Content\"";
+				DEVELOPMENT_TEAM = 53V5TASS2X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -332,6 +349,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AirBnBAgent/Preview Content\"";
+				DEVELOPMENT_TEAM = 53V5TASS2X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
