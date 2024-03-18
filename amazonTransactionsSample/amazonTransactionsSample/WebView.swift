@@ -15,13 +15,11 @@ struct PipeableWebView: View {
 
     @State var working = false
     @State var done = false
-    @State var statusText = ""
-    @State var statusAnimated = false
 
     var body: some View {
         ZStack {
             WebViewWrapper(orders: $orders, onClose: onClose, onStatusChange: onStatusChange)
-//                .blur(radius: working ? 2.5 : 0)
+                .blur(radius: working ? 2.5 : 0)
                 .allowsHitTesting(!working)
         }
     }
@@ -30,16 +28,10 @@ struct PipeableWebView: View {
         orders = newOrders
 
         if status == .login {
-            statusText = "👤  Please log into your account"
-            statusAnimated = false
             working = false
         } else if status == .working {
-            statusText = "🤖  Robot working, please wait"
-            statusAnimated = true
             working = true
         } else if status == .done {
-            statusText = "✅  Orders fetched!"
-            statusAnimated = false
             working = false
             done = true
 
@@ -47,8 +39,6 @@ struct PipeableWebView: View {
                 onResult(.success)
             }
         } else if status == .failure {
-            statusText = "❌  Could not complete operation"
-            statusAnimated = false
             working = false
             done = true
 
@@ -71,7 +61,6 @@ struct WebViewWrapper: UIViewControllerRepresentable {
 
     var onClose: () -> Void
     var onStatusChange: (_ status: Status, _ orders: [AmazonOrder]) -> Void
-    var initialized = false
 
     // This function makes the WKWebView
     func makeUIViewController(context: UIViewControllerRepresentableContext<WebViewWrapper>) -> WKWebViewController {
@@ -80,11 +69,8 @@ struct WebViewWrapper: UIViewControllerRepresentable {
         return uiViewController
     }
 
-    func makeCoordinator() -> WebViewCoordinator {
-        return WebViewCoordinator(self)
-    }
-
-    // This function is called when the WKWebView is created to load the request
+    // This function is called when the WKWebView is created to load the request, we use it to kick off the
+    // async work of running the automation.
     func updateUIViewController(_ uiViewController: WKWebViewController, context: UIViewControllerRepresentableContext<WebViewWrapper>) {
         if uiViewController.isStarted {
             return
@@ -98,8 +84,6 @@ struct WebViewWrapper: UIViewControllerRepresentable {
             }
         }
     }
-
-    mutating func urlChanged(url: URL, webView: WKWebView) {}
 }
 
 class WKWebViewController: UIViewController {
@@ -219,8 +203,8 @@ class WKWebViewController: UIViewController {
         }
     }
     
-    /// This function fetches the user's Amazon transactions using the PipeableSDK directly (i.e in Swift).
     func fetchTransactionsUsingPipeableNative(page: PipeablePage) async throws {
+        // This function fetches the user's Amazon transactions using the PipeableSDK directly (i.e using the Swift API).
         let orderEls = try await page.querySelectorAll("#ordersContainer .js-item")
         
         for orderEl in orderEls {
@@ -247,8 +231,8 @@ class WKWebViewController: UIViewController {
         }
     }
     
-    /// This function fetches the user's Amazon transactions using a PipeableScript instead.
     func fetchTransactionsUsingPipebleScript(page: PipeablePage) async throws {
+        // This function fetches the user's Amazon transactions using a PipeableScript instead.
         // Run the PipeableScript
         let result = try await runScript(
             """
@@ -276,8 +260,6 @@ class WKWebViewController: UIViewController {
             """, page
         )
         
-        print(String(describing: result.toObject()))
-        
         // Convert the results to Swift objects
         if let array = result.toObject() as? [Any] {
             // Iterate over each element in the array, which are now expected to be dictionaries
@@ -290,38 +272,6 @@ class WKWebViewController: UIViewController {
                     let anOrder = AmazonOrder(item: item ?? "", date: orderDate ?? "")
                     orders.append(anOrder)
                 }
-            }
-        }
-    }
-}
-
-class WebViewCoordinator: NSObject, WKNavigationDelegate {
-    var parent: WebViewWrapper
-
-    init(_ parent: WebViewWrapper) {
-        self.parent = parent
-    }
-
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        if let url = navigationAction.request.url {
-            print("Request URL: \(url)")
-            parent.urlChanged(url: url, webView: webView)
-        }
-
-        decisionHandler(.allow)
-    }
-
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation) {
-        if let url = webView.url {
-            print("Finished loading URL: \(url)")
-            // Perform actions based on the URL that finished loading
-
-            webView.evaluateJavaScript("PipeableJS.version()")
-
-            // Delay this by 3 seconds.
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                // Your code here will be run after 3 seconds
-                webView.evaluateJavaScript("PipeableJS.clickOnXPath('//button[contains(string(), \"OK\")]')")
             }
         }
     }
