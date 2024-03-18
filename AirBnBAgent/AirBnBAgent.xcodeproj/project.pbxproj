@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2B457A9D2BA7A46900B3A7DC /* airBnBAgentApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B457A9C2BA7A46900B3A7DC /* airBnBAgentApp.swift */; };
+		2B457A9D2BA7A46900B3A7DC /* AirBnBAgentApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B457A9C2BA7A46900B3A7DC /* AirBnBAgentApp.swift */; };
 		2B457A9F2BA7A46900B3A7DC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B457A9E2BA7A46900B3A7DC /* ContentView.swift */; };
 		2B457AA12BA7A46F00B3A7DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B457AA02BA7A46F00B3A7DC /* Assets.xcassets */; };
 		2B457AA42BA7A46F00B3A7DC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B457AA32BA7A46F00B3A7DC /* Preview Assets.xcassets */; };
@@ -21,8 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2B457A992BA7A46900B3A7DC /* airBnBAgent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = airBnBAgent.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		2B457A9C2BA7A46900B3A7DC /* airBnBAgentApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = airBnBAgentApp.swift; sourceTree = "<group>"; };
+		2B457A992BA7A46900B3A7DC /* AirBnBAgent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AirBnBAgent.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B457A9C2BA7A46900B3A7DC /* AirBnBAgentApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirBnBAgentApp.swift; sourceTree = "<group>"; };
 		2B457A9E2BA7A46900B3A7DC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2B457AA02BA7A46F00B3A7DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2B457AA32BA7A46F00B3A7DC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -49,7 +49,7 @@
 		2B457A902BA7A46900B3A7DC = {
 			isa = PBXGroup;
 			children = (
-				2B457A9B2BA7A46900B3A7DC /* airBnBAgent */,
+				2B457A9B2BA7A46900B3A7DC /* AirBnBAgent */,
 				2B457A9A2BA7A46900B3A7DC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -57,12 +57,12 @@
 		2B457A9A2BA7A46900B3A7DC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2B457A992BA7A46900B3A7DC /* airBnBAgent.app */,
+				2B457A992BA7A46900B3A7DC /* AirBnBAgent.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2B457A9B2BA7A46900B3A7DC /* airBnBAgent */ = {
+		2B457A9B2BA7A46900B3A7DC /* AirBnBAgent */ = {
 			isa = PBXGroup;
 			children = (
 				2B886D7E2BA7A7B6007DB63D /* StatusView.swift */,
@@ -70,12 +70,12 @@
 				2B886D772BA7A705007DB63D /* Agent.swift */,
 				2B886D762BA7A705007DB63D /* AirBnBTools.swift */,
 				2B886D782BA7A705007DB63D /* WebView.swift */,
-				2B457A9C2BA7A46900B3A7DC /* airBnBAgentApp.swift */,
+				2B457A9C2BA7A46900B3A7DC /* AirBnBAgentApp.swift */,
 				2B457A9E2BA7A46900B3A7DC /* ContentView.swift */,
 				2B457AA02BA7A46F00B3A7DC /* Assets.xcassets */,
 				2B457AA22BA7A46F00B3A7DC /* Preview Content */,
 			);
-			path = airBnBAgent;
+			path = AirBnBAgent;
 			sourceTree = "<group>";
 		};
 		2B457AA22BA7A46F00B3A7DC /* Preview Content */ = {
@@ -89,9 +89,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2B457A982BA7A46900B3A7DC /* airBnBAgent */ = {
+		2B457A982BA7A46900B3A7DC /* AirBnBAgent */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2B457AA72BA7A46F00B3A7DC /* Build configuration list for PBXNativeTarget "airBnBAgent" */;
+			buildConfigurationList = 2B457AA72BA7A46F00B3A7DC /* Build configuration list for PBXNativeTarget "AirBnBAgent" */;
 			buildPhases = (
 				2B457A952BA7A46900B3A7DC /* Sources */,
 				2B457A962BA7A46900B3A7DC /* Frameworks */,
@@ -101,13 +101,13 @@
 			);
 			dependencies = (
 			);
-			name = airBnBAgent;
+			name = AirBnBAgent;
 			packageProductDependencies = (
 				2B457AAB2BA7A4C100B3A7DC /* PipeableSDK */,
 				2B457AAE2BA7A5A400B3A7DC /* OpenAI */,
 			);
-			productName = airBnBAgent;
-			productReference = 2B457A992BA7A46900B3A7DC /* airBnBAgent.app */;
+			productName = AirBnBAgent;
+			productReference = 2B457A992BA7A46900B3A7DC /* AirBnBAgent.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -125,7 +125,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 2B457A942BA7A46900B3A7DC /* Build configuration list for PBXProject "airBnBAgent" */;
+			buildConfigurationList = 2B457A942BA7A46900B3A7DC /* Build configuration list for PBXProject "AirBnBAgent" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -142,7 +142,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2B457A982BA7A46900B3A7DC /* airBnBAgent */,
+				2B457A982BA7A46900B3A7DC /* AirBnBAgent */,
 			);
 		};
 /* End PBXProject section */
@@ -170,7 +170,7 @@
 				2B886D792BA7A705007DB63D /* AirBnBTools.swift in Sources */,
 				2B886D7F2BA7A7B6007DB63D /* StatusView.swift in Sources */,
 				2B886D7D2BA7A785007DB63D /* ToastView.swift in Sources */,
-				2B457A9D2BA7A46900B3A7DC /* airBnBAgentApp.swift in Sources */,
+				2B457A9D2BA7A46900B3A7DC /* AirBnBAgentApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,7 +303,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"airBnBAgent/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"AirBnBAgent/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -316,7 +316,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.pipeable.airBnBAgent;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pipeable.AirBnBAgent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -331,7 +331,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"airBnBAgent/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"AirBnBAgent/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -344,7 +344,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.pipeable.airBnBAgent;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pipeable.AirBnBAgent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -355,7 +355,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2B457A942BA7A46900B3A7DC /* Build configuration list for PBXProject "airBnBAgent" */ = {
+		2B457A942BA7A46900B3A7DC /* Build configuration list for PBXProject "AirBnBAgent" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2B457AA52BA7A46F00B3A7DC /* Debug */,
@@ -364,7 +364,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2B457AA72BA7A46F00B3A7DC /* Build configuration list for PBXNativeTarget "airBnBAgent" */ = {
+		2B457AA72BA7A46F00B3A7DC /* Build configuration list for PBXNativeTarget "AirBnBAgent" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2B457AA82BA7A46F00B3A7DC /* Debug */,

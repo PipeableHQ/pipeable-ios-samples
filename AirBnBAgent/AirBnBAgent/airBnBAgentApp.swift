@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct airBnBAgentApp: App {
+struct AirBnBAgentApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
