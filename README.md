@@ -1,6 +1,6 @@
 # pipeable-ios-samples
 
-Code samples for [Pipeable iOS SDK](https://github.com/PipeableHQ/pipeable-ios), for more information on Pipeable, visit [pipeable.com](https://www.pipeable.com/).
+Code samples for [Pipeable iOS SDK](https://github.com/PipeableHQ/pipeable-ios). For more information on Pipeable visit [pipeable.com](https://www.pipeable.com/).
 
 # Running a sample
 
