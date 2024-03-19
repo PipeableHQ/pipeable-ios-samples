@@ -61,7 +61,7 @@ struct ToastView_Previews: PreviewProvider {
         @State var isPresented = true
         
         VStack {
-            ToastView(header: "Success", text: "Card successfully set as default!", positive: true, isPresented: $isPresented)
+            ToastView(header: "Success", text: "Operation successful!", positive: true, isPresented: $isPresented)
         }
     }
 }

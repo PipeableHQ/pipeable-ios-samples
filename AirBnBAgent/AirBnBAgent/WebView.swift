@@ -12,33 +12,60 @@ struct AirBnBAgentWebView: View {
     @Binding var prompt: String
     var onClose: () -> Void
     var onResult: (ResultStatus) -> Void
-    
+
     @State var working = false
     @State var done = false
     @State var statusText = ""
     @State var statusAnimated: Bool = false
-    
-    var body: some View {
-        ZStack {
-            WebViewWrapper(prompt: prompt, onClose: onClose, onStatusChange: onStatusChange)
-//                .blur(radius: working ? 1.0 : 0)
-                .allowsHitTesting(!working)
 
-            StatusView(text: statusText, animated: statusAnimated, done: done, userControl: !working)
-//                .allowsHitTesting(working || done)
+    var body: some View {
+        NavigationView {
+            VStack {
+                WebViewWrapper(prompt: prompt, onClose: onClose, onStatusChange: onStatusChange)
+                    .allowsHitTesting(!working)
+                    .ignoresSafeArea(edges: .bottom)
+                StatusView(text: statusText, animated: statusAnimated, done: done, userControl: !working)
+                    .frame(height: 60)
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Close") {
+                        // Action to dismiss the view
+                        onClose()
+                    }
+                }
+                ToolbarItem(placement: .principal) {
+                    HStack {
+                        Image(systemName: "lock.fill")
+                        Text("airbnb.com")
+                    }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Menu {
+                        Button("Logout", action: {
+                            deleteAllCookies()
+                            onClose()
+                        })
+                    } label: {
+                        Image(systemName: "ellipsis.circle")
+                    }
+                }
+            }
+            .navigationViewStyle(StackNavigationViewStyle())
         }
     }
 
     func onStatusChange(_ status: Status) {
-        if status == .login {
+        switch status {
+        case .login:
             statusText = "👤  Logging in"
             statusAnimated = false
             working = false
-        } else if status == .working {
-            statusText = "🤖 Robot working"
+        case .working(let action):
+            statusText = "🤖 \(action)"
             statusAnimated = true
             working = true
-        } else if status == .done {
+        case .done:
             statusText = "👤 Done. Presenting your results"
             statusAnimated = false
             working = false
@@ -47,24 +74,17 @@ struct AirBnBAgentWebView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 onResult(.success)
             }
-        } else if status == .failure {
-            statusText = "❌  Could not complete operation"
+        case .failure:
+            statusText = "❌ Automation failed"
             statusAnimated = false
             working = false
-            done = true
+            done = false
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                onResult(.failure)
+                onResult(.success)
             }
         }
     }
-}
-
-enum Status {
-    case login
-    case working
-    case done
-    case failure
 }
 
 struct WebViewWrapper: UIViewControllerRepresentable {
@@ -77,7 +97,6 @@ struct WebViewWrapper: UIViewControllerRepresentable {
         self.prompt = prompt
         self.onClose = onClose
         self.onStatusChange = onStatusChange
-        print("webviewwrapper: \(prompt)")
     }
 
     func makeUIViewController(context _: UIViewControllerRepresentableContext<WebViewWrapper>) -> WKWebViewController {
@@ -90,8 +109,6 @@ struct WebViewWrapper: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: WKWebViewController, context _: UIViewControllerRepresentableContext<WebViewWrapper>) {
-//        print("PROMPT: \(self.prompt)")
-
         if uiViewController.isStarted {
             return
         }
@@ -111,7 +128,8 @@ class WKWebViewController: UIViewController {
      This class handles initializing the WKWebView and setting up the toolbar. Additionally,
      it handles initializing the PipeablePage, Agent, and AirBnBTools, and orchestrating the automation.
      */
-    var webView: WKWebView!
+
+    var webView: PipeableWebView!
     var prompt: String!
     var isStarted: Bool = false
     var onClose: (() -> Void)!
@@ -120,44 +138,18 @@ class WKWebViewController: UIViewController {
     override func loadView() {
         view = UIView()
 
-//        deleteAllCookies()
-
-        // set user agent to get around google oauth issues
-        let webViewConfiguration = WKWebViewConfiguration()
-        webViewConfiguration.applicationNameForUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.3.1 Mobile/15E148 Safari/604.1"
-
-        // Set up resizing rules.
-        webView = WKWebView(frame: .zero)
-
-        let closeButtonItem = BlockBarButtonItem(title: "Close", style: .plain, actionHandler: {
-            self.webView.stopLoading()
-            self.webView.loadHTMLString("<html><body></body></html>", baseURL: nil)
-            self.onClose()
-        })
-
-        let logoutButtonItem = BlockBarButtonItem(title: "Log out", style: .plain, actionHandler: {
-            deleteAllCookies()
-            self.onClose()
-        })
-
-        // Create a toolbar
-        let toolbar = UIToolbar()
-        toolbar.items = [closeButtonItem, logoutButtonItem]
-        toolbar.translatesAutoresizingMaskIntoConstraints = false
+        webView = PipeableWebView(frame: view.frame)
+        webView.configuration.applicationNameForUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.3.1 Mobile/15E148 Safari/604.1"
 
         view.addSubview(webView)
-        view.addSubview(toolbar)
+
         webView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            toolbar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            toolbar.leftAnchor.constraint(equalTo: view.leftAnchor),
-            toolbar.rightAnchor.constraint(equalTo: view.rightAnchor),
-
             webView.topAnchor.constraint(equalTo: view.topAnchor),
             webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            webView.bottomAnchor.constraint(equalTo: toolbar.topAnchor),
+            webView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
 
@@ -166,22 +158,31 @@ class WKWebViewController: UIViewController {
         // No re-entry.
         isStarted = true
 
-        let page = PipeablePage(webView, debugPrintConsoleLogs: true)
+        let page = webView.page
 
         do {
             let airBnbTools = AirBnBTools(page: page)
 
             onStatusChange(.login)
-            _ = try await page.goto("https://www.airbnb.com")
-//            try await airBnbTools.login()
 
-            onStatusChange(.working)
+            try await airBnbTools.login()
 
-            let agent = Agent(airBnBTools: airBnbTools, openAIAPIToken: "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")
-//            let msg = "Book a place in Seoul for 2 adults on March 20th to March 22nd, 2024 and enable instant book for a place that costs between $100 and $150 per night, and book the entire place."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
+            onStatusChange(.working(action: "GPT thinking"))
+
+            let agent = Agent(
+                airBnBTools: airBnbTools,
+                openAIAPIToken: "<OPENAI-KEY-HERE>",
+                onStep: { stepName in self.onStatusChange(.working(action: stepName)) }
+            )
+
+            if prompt.isEmpty {
+                return
+            }
 
             var res = try await agent.step(message: prompt)
+
             print(res)
+
             while !res.done {
                 try await Task.sleep(nanoseconds: 2000 * 1_000_000)
                 res = try await agent.step(message: nil)
@@ -205,51 +206,14 @@ public func deleteAllCookies() {
     dataStore.removeData(ofTypes: dataTypes, modifiedSince: dateFrom, completionHandler: {})
 }
 
-struct Cookie: Codable {
-    let name: String
-    let value: String
-    let domain: String
-    let path: String
-}
+struct AirBnBWebView_Previews: PreviewProvider {
+    @State static var prompt: String = ""
 
-public func getCookiesJSON(webView: WKWebView) async throws -> String {
-    return try await withCheckedThrowingContinuation { continuation in
-        Task {
-            await MainActor.run {
-                webView.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
-                    let cookieObjects = cookies.map { Cookie(name: $0.name, value: $0.value, domain: $0.domain, path: $0.path) }
-                    do {
-                        let jsonData = try JSONEncoder().encode(cookieObjects)
-                        if let jsonString = String(data: jsonData, encoding: .utf8) {
-                            continuation.resume(returning: jsonString)
-                        } else {
-                            continuation.resume(throwing: NSError(domain: "Invalid JSON data", code: -1, userInfo: nil))
-                        }
-                    } catch {
-                        continuation.resume(throwing: error)
-                    }
-                }
-            }
-        }
-    }
-}
-
-class BlockBarButtonItem: UIBarButtonItem {
-    private var actionHandler: (() -> Void)?
-
-    convenience init(title: String?, style: UIBarButtonItem.Style, actionHandler: (() -> Void)?) {
-        self.init(title: title, style: style, target: nil, action: #selector(barButtonItemPressed))
-        target = self
-        self.actionHandler = actionHandler
-    }
-
-    convenience init(image: UIImage?, style: UIBarButtonItem.Style, actionHandler: (() -> Void)?) {
-        self.init(image: image, style: style, target: nil, action: #selector(barButtonItemPressed))
-        target = self
-        self.actionHandler = actionHandler
-    }
-
-    @objc func barButtonItemPressed(sender _: UIBarButtonItem) {
-        actionHandler?()
+    static var previews: some View {
+        AirBnBAgentWebView(
+            prompt: $prompt,
+            onClose: {},
+            onResult: { _ in }
+        )
     }
 }

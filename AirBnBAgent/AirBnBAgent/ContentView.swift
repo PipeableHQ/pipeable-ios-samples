@@ -19,7 +19,6 @@ struct ContentView: View {
                     onClose: {
                         showWeb = false
                     }, onResult: { status in
-//                        showWeb = false
                         if status == .success {
                             showSuccess = true
                         } else if status == .failure {
@@ -28,14 +27,7 @@ struct ContentView: View {
                     }
                 )
             }
-            
-//            if showSuccess {
-//                VStack {
-//                    ToastView(header: "Success", text: "Card successfully set as default!", positive: true, isPresented: $showSuccess)
-//                        .padding(.top, 20)
-//                }
-//            }
-//
+
             if showFailure {
                 VStack {
                     ToastView(header: "Not supported", text: "Current operation is not supported!", positive: false, isPresented: $showFailure)
@@ -48,7 +40,8 @@ struct ContentView: View {
 
 struct MainScreen: View {
     @Environment(\.colorScheme) var colorScheme
-    @State private var inputText: String = "Please book me an Airbnb. I am going to Seoul, South Korea between Mar 25 and Mar 29. I am traveling with my wife. We want to rent an entire home and our budget is $100-150 per night. We prefer to stay at highly rated houses that have an instant booking option."
+
+    @State private var inputText: String = ""
     @FocusState private var isTextEditorFocused: Bool
     
     var onButtonTapped: (_ prompt: String) -> Void
@@ -117,17 +110,17 @@ struct MainScreen: View {
                 .frame(minHeight: 100) // Adjust the height as needed
                 .border(Color.gray, width: 1) // Optional: add a border to clearly define the text area
                 .focused($isTextEditorFocused)
-                  .padding()
-                  .toolbar {
-                      ToolbarItemGroup(placement: .keyboard) {
-                          Spacer() // This spacer pushes the button to the trailing edge of the screen
+                .padding()
+                .toolbar {
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Spacer() // This spacer pushes the button to the trailing edge of the screen
                           
-                          Button("Done") {
-                              // Dismiss the keyboard
-                              isTextEditorFocused = false
-                          }
-                      }
-                  }
+                        Button("Done") {
+                            // Dismiss the keyboard
+                            isTextEditorFocused = false
+                        }
+                    }
+                }
             
             Spacer()
 

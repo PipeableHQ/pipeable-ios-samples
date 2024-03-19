@@ -18,6 +18,7 @@
 		2B886D7B2BA7A705007DB63D /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B886D782BA7A705007DB63D /* WebView.swift */; };
 		2B886D7D2BA7A785007DB63D /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B886D7C2BA7A785007DB63D /* ToastView.swift */; };
 		2B886D7F2BA7A7B6007DB63D /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B886D7E2BA7A7B6007DB63D /* StatusView.swift */; };
+		A433DA452BA9B73B00113C1E /* PipeableSDK in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 2B525F392BA93AE6001553CA /* PipeableSDK */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,6 +28,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				A433DA452BA9B73B00113C1E /* PipeableSDK in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
