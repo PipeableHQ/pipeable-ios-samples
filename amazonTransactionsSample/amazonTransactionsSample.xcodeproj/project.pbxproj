@@ -39,7 +39,7 @@
 		2B457A712BA7743700B3A7DC = {
 			isa = PBXGroup;
 			children = (
-				2B457A7C2BA7743700B3A7DC /* amazonTransactionsSample */,
+				2B457A7C2BA7743700B3A7DC /* AmazonTransactionsSample */,
 				2B457A7B2BA7743700B3A7DC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -52,7 +52,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2B457A7C2BA7743700B3A7DC /* amazonTransactionsSample */ = {
+		2B457A7C2BA7743700B3A7DC /* AmazonTransactionsSample */ = {
 			isa = PBXGroup;
 			children = (
 				2B457A8B2BA7748B00B3A7DC /* WebView.swift */,
@@ -61,7 +61,7 @@
 				2B457A812BA7743B00B3A7DC /* Assets.xcassets */,
 				2B457A832BA7743B00B3A7DC /* Preview Content */,
 			);
-			path = amazonTransactionsSample;
+			path = AmazonTransactionsSample;
 			sourceTree = "<group>";
 		};
 		2B457A832BA7743B00B3A7DC /* Preview Content */ = {
@@ -110,7 +110,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 2B457A752BA7743700B3A7DC /* Build configuration list for PBXProject "amazonTransactionsSample" */;
+			buildConfigurationList = 2B457A752BA7743700B3A7DC /* Build configuration list for PBXProject "AmazonTransactionsSample" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -335,7 +335,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2B457A752BA7743700B3A7DC /* Build configuration list for PBXProject "amazonTransactionsSample" */ = {
+		2B457A752BA7743700B3A7DC /* Build configuration list for PBXProject "AmazonTransactionsSample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2B457A862BA7743B00B3A7DC /* Debug */,
