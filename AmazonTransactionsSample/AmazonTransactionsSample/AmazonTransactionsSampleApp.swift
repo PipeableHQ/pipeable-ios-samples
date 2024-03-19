@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct amazonTransactionsSampleApp: App {
+struct AmazonTransactionsSampleApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

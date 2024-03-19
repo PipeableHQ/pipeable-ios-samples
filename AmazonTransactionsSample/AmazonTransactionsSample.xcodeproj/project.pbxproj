@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2B457A7E2BA7743700B3A7DC /* amazonTransactionsSampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B457A7D2BA7743700B3A7DC /* amazonTransactionsSampleApp.swift */; };
+		2B457A7E2BA7743700B3A7DC /* AmazonTransactionsSampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B457A7D2BA7743700B3A7DC /* AmazonTransactionsSampleApp.swift */; };
 		2B457A802BA7743700B3A7DC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B457A7F2BA7743700B3A7DC /* ContentView.swift */; };
 		2B457A822BA7743B00B3A7DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B457A812BA7743B00B3A7DC /* Assets.xcassets */; };
 		2B457A852BA7743B00B3A7DC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B457A842BA7743B00B3A7DC /* Preview Assets.xcassets */; };
@@ -17,7 +17,7 @@
 
 /* Begin PBXFileReference section */
 		2B457A7A2BA7743700B3A7DC /* AmazonTransactionsSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AmazonTransactionsSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		2B457A7D2BA7743700B3A7DC /* amazonTransactionsSampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = amazonTransactionsSampleApp.swift; sourceTree = "<group>"; };
+		2B457A7D2BA7743700B3A7DC /* AmazonTransactionsSampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmazonTransactionsSampleApp.swift; sourceTree = "<group>"; };
 		2B457A7F2BA7743700B3A7DC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2B457A812BA7743B00B3A7DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2B457A842BA7743B00B3A7DC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -56,7 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				2B457A8B2BA7748B00B3A7DC /* WebView.swift */,
-				2B457A7D2BA7743700B3A7DC /* amazonTransactionsSampleApp.swift */,
+				2B457A7D2BA7743700B3A7DC /* AmazonTransactionsSampleApp.swift */,
 				2B457A7F2BA7743700B3A7DC /* ContentView.swift */,
 				2B457A812BA7743B00B3A7DC /* Assets.xcassets */,
 				2B457A832BA7743B00B3A7DC /* Preview Content */,
@@ -150,7 +150,7 @@
 			files = (
 				2B457A8C2BA7748B00B3A7DC /* WebView.swift in Sources */,
 				2B457A802BA7743700B3A7DC /* ContentView.swift in Sources */,
-				2B457A7E2BA7743700B3A7DC /* amazonTransactionsSampleApp.swift in Sources */,
+				2B457A7E2BA7743700B3A7DC /* AmazonTransactionsSampleApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,8 +360,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/PipeableHQ/pipeable-ios.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.14;
+				branch = main;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

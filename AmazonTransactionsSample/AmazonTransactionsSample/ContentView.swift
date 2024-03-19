@@ -16,12 +16,9 @@ struct ContentView: View {
                 showWeb = true
             }
             .sheet(isPresented: $showWeb) {
-                PipeableWebView(
+                PipeableWebViewWrapper(
                     orders: $orders,
                     onClose: {
-                        showWeb = false
-                    },
-                    onResult: { _ in
                         showWeb = false
                     }
                 )
@@ -51,7 +48,12 @@ struct MainScreen: View {
             }
 
             HStack(alignment: .center) {
-                Text("Connect with your Amazon account to fetch your latest orders and use the information in your app!"
+                Text(
+                    """
+                    Pipeable is a mobile webview automation framework.
+
+                    In this demo we will show you how you can connect with your Amazon account to fetch your latest orders and use the information in your app!
+                    """
                 )
                     .font(.title3)
                     .padding(.all, 10)

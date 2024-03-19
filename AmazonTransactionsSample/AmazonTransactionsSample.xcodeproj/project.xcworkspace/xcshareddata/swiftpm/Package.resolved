@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/PipeableHQ/pipeable-ios.git",
       "state" : {
-        "revision" : "4b826c0b48a9f44d0951c515a717fd5a86fdff19",
-        "version" : "0.0.14"
+        "branch" : "main",
+        "revision" : "b088c228adaf145e41576cb6d801cc0559108067"
       }
     }
   ],
