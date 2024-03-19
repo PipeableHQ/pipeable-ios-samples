@@ -2,6 +2,12 @@ import Foundation
 import SwiftUI
 import Combine
 
+enum Status {
+    case login
+    case working(action: String)
+    case done
+    case failure
+}
 
 struct StatusView: View {
     var text: String

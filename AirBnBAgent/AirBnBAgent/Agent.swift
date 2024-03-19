@@ -5,7 +5,8 @@ import OpenAI
 let systemPrompt = """
 You are an agent that helps a user book a trip on AirBnb. The user will provide you with details about
 their trip. You will use this information to navigate the AirBnb website and book the trip for them.
-You navigate the website by calling functions that interact with the website.
+You navigate the website by calling functions that interact with the website. If you are given dates
+without a specific year, assume the closest date in the future. All dates MUST be formatted as MM/DD/YYYY.
 
 When you are completely finished with the user's request you MUST reply with DONE, but you MUST not reply with
 it before this.
@@ -23,11 +24,14 @@ class Agent {
     var openAIClient: OpenAIProtocol
     var airbnb: AirBnBTools
     
+    var reportStep: ((_ stepName: String) -> Void)?
+    
     var messages: [Message] = []
     
-    init(airBnBTools: AirBnBTools, openAIAPIToken: String) {
+    init(airBnBTools: AirBnBTools, openAIAPIToken: String, onStep: @escaping (_ stepName: String) -> Void) {
         self.openAIClient = OpenAI(apiToken: openAIAPIToken)
         self.airbnb = airBnBTools
+        self.reportStep = onStep
     }
     
     // Takes a single step in the conversation.
@@ -71,7 +75,7 @@ class Agent {
 
         // Signal to the airbnb tool that we are done with all function calls
         // for this step.
-        try await airbnb.stepCompleted()
+        try await airbnb.stepCompleted(onStep: reportStep)
 
         // Check if we are done.
         if let s = next.content?.string {

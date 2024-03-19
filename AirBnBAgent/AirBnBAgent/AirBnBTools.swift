@@ -8,15 +8,15 @@ enum AirBnbToolError: Error {
 
 class AirBnBTools {
     /*
-    This is the main class that interacts with the AirBnB website.
-    * We use PipeableSDK to interact with the website.
-    * We expose a list of tools (see `tools` below) that the Agent can provide to OpenAI.
-    * We also expose a function `maybeCallTool` that the Agent can call when GPT calls a tool, this handles 
-      parsing the arguments for the tool call and storing them in the appropriate properties.
-    * We also expose a function `stepCompleted` that the Agent can call when all tools in an OpenAI response have been 
-      called, this function takes any action that might require the results of multiple tool calls.
-    * We expose a `login` function that the WebView can call to log the user in to AirBnB.
-    */
+     This is the main class that interacts with the AirBnB website.
+     * We use PipeableSDK to interact with the website.
+     * We expose a list of tools (see `tools` below) that the Agent can provide to OpenAI.
+     * We also expose a function `maybeCallTool` that the Agent can call when GPT calls a tool, this handles
+       parsing the arguments for the tool call and storing them in the appropriate properties.
+     * We also expose a function `stepCompleted` that the Agent can call when all tools in an OpenAI response have been
+       called, this function takes any action that might require the results of multiple tool calls.
+     * We expose a `login` function that the WebView can call to log the user in to AirBnB.
+     */
     private var page: PipeablePage
 
     // The following properties are used to store the user's requirements as they are extracted from the user's request
@@ -32,6 +32,9 @@ class AirBnBTools {
     // This ensures that the filters are only applied once.
     private var calledFilter = false
 
+    private var shouldBookAirBnb = false
+    private var selectedAirBnB = false
+
     init(page: PipeablePage) {
         self.page = page
     }
@@ -40,8 +43,8 @@ class AirBnBTools {
     func login() async throws {
         _ = try await page.goto("https://www.airbnb.com/login", waitUntil: .networkidle)
         // Wait for the user to be redirected back to the home page, we assume this means the
-        // user logged in successfully.
-        _ = try await page.waitForURL { url in url == "https://www.airbnb.com/" }
+        // user logged in successfully. Allow for more time for them to login.
+        _ = try await page.waitForURL({ url in url == "https://www.airbnb.com/" }, timeout: 180_000)
     }
 
     // Function for GPT to call to record the user's destination choice
@@ -106,6 +109,12 @@ class AirBnBTools {
         let pets: Int
     }
 
+    // Function for GPT to book the top airbnb
+    private let bookTopAirBnBFn = ChatQuery.ChatCompletionToolParam(function: .init(
+        name: "bookTopAirBnB",
+        description: "Select the top, highest ranked AirBnB and go to the booking page"
+    ))
+
     // Uses PipeableSDK to carry out a search on behalf of the user once GPT has recorded the user's
     // travel requirements as GPT function calls.
     private func searchDestinations(
@@ -126,7 +135,7 @@ class AirBnBTools {
         try await destionationInputEl?.click()
 
         //
-        try await destionationInputEl?.type(place, 100)
+        try await destionationInputEl?.type(place, delay: 100)
 
         try await Task.sleep(nanoseconds: 200 * 1_000_000)
 
@@ -193,7 +202,7 @@ class AirBnBTools {
 
         let searchBtn = try await page.waitForSelector("*[data-testid='explore-footer-primary-btn']")
         try await searchBtn?.click()
-        try await Task.sleep(nanoseconds: 1000 * 1_000_000)
+        try await Task.sleep(nanoseconds: 1_000 * 1_000_000)
     }
 
     private let selectFiltersFn = ChatQuery.ChatCompletionToolParam(function: .init(
@@ -245,7 +254,7 @@ class AirBnBTools {
             try await Task.sleep(nanoseconds: 200 * 1_000_000)
 
             try await btn.click()
-            try await Task.sleep(nanoseconds: 1000 * 1_000_000)
+            try await Task.sleep(nanoseconds: 1_000 * 1_000_000)
         }
 
         if let priceRangeMin = filters.priceRangeMin {
@@ -265,7 +274,7 @@ class AirBnBTools {
                 document.execCommand('Delete')
             """, arguments: ["el": priceInputMin])
 
-            try await Task.sleep(nanoseconds: 1000 * 1_000_000)
+            try await Task.sleep(nanoseconds: 1_000 * 1_000_000)
 
             try await priceInputMin.type(String(priceRangeMin))
         }
@@ -291,7 +300,7 @@ class AirBnBTools {
 
             try await priceInputMax.type(String(priceRangeMax))
 
-            try await Task.sleep(nanoseconds: 1000 * 1_000_000)
+            try await Task.sleep(nanoseconds: 1_000 * 1_000_000)
         }
 
         if let instantBook = filters.instantBook {
@@ -314,6 +323,35 @@ class AirBnBTools {
         // always submit the search button, even if nothing changed, so the filters go away
         let searchBtn = try await page.waitForSelector("footer > a", visible: true)
         try await searchBtn?.click()
+
+        _ = try await page.waitForXHR("/StaysSearch/")
+    }
+
+    private func selectTopAirBnB() async throws {
+        guard let airbnbLink = try await page.waitForXPath("//div[@itemprop='itemListElement']/descendant::a", visible: true) else {
+            return
+        }
+
+        _ = try await page.evaluateAsyncFunction("el.scrollIntoView()", arguments: ["el": airbnbLink])
+
+        try await airbnbLink.click()
+
+        _ = try await page.waitForXHR("stayCheckout")
+
+        // Dismiss translation dialog if it appears, give it 3s to appear.
+        do {
+            let closeBtn = try await page.waitForSelector("div[aria-label='Translation on'] button[aria-label='Close']", timeout: 3_000)
+            try? await closeBtn?.click()
+            try await Task.sleep(nanoseconds: 300 * 1_000_000)
+        } catch {
+            // It's ok if it doesn't appear.
+        }
+
+        guard let bookButton = try await page.waitForSelector("button[data-testid='homes-pdp-cta-btn']", visible: true) else { return }
+
+        _ = try await page.evaluateAsyncFunction("el.scrollIntoView()", arguments: ["el": bookButton])
+
+        try await bookButton.click()
     }
 
     // The tools that we expose to the Agent for GPT to call
@@ -323,6 +361,7 @@ class AirBnBTools {
             selectDatesFn,
             selectGuestsFn,
             selectFiltersFn,
+            bookTopAirBnBFn,
         ]
     }
 
@@ -339,6 +378,8 @@ class AirBnBTools {
             guests = try JSONDecoder().decode(SelectGuestsParams.self, from: jsonArgs)
         case "selectFilters":
             filters = try JSONDecoder().decode(AirBnBFilters.self, from: jsonArgs)
+        case "bookTopAirBnB":
+            shouldBookAirBnb = true
         default:
             matched = false
         }
@@ -347,15 +388,33 @@ class AirBnBTools {
 
     // Called by the Agent to signal that all tools have been called and we
     // should take any actions that might require the results of multiple tool calls.
-    func stepCompleted() async throws {
+    func stepCompleted(onStep: ((_ stepName: String) -> Void)?) async throws {
         if destination != nil, dates != nil, guests != nil, !calledSearch {
+            if let onStep = onStep {
+                onStep("Searching destination")
+            }
+
             try await searchDestinations(place: destination!.destination, startDate: dates!.checkIn, endDate: dates!.checkOut, guests: guests!)
+
             calledSearch = true
         }
 
         if filters != nil, !calledFilter {
+            if let onStep = onStep {
+                onStep("Applying filters")
+            }
+
             try await applyFilters(filters: filters!)
             calledFilter = true
+        }
+
+        if shouldBookAirBnb, !selectedAirBnB, calledSearch, calledFilter {
+            if let onStep = onStep {
+                onStep("Selecting AirBnB")
+            }
+            try await selectTopAirBnB()
+
+            selectedAirBnB = true
         }
     }
 }

@@ -1,4 +1,5 @@
 {
+  "originHash" : "818e84d5f1f502ef388570dfac36b1be2af8e729f69e3f600bc60b00c0c3e8ca",
   "pins" : [
     {
       "identity" : "openai",
@@ -15,9 +16,9 @@
       "location" : "https://github.com/PipeableHQ/pipeable-ios.git",
       "state" : {
         "branch" : "main",
-        "revision" : "13c0f0982a4f5aa5505bb3387bae0a6bd71f8468"
+        "revision" : "b088c228adaf145e41576cb6d801cc0559108067"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
