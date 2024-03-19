@@ -69,7 +69,7 @@ struct MainScreen: View {
             HStack(alignment: .center) {
                 Text(
                     """
-                    Welcome to the Pipeable AirBnB Demo. Pipeable is an SDK that allows you to control webviews programmatically. Here we demonstrate how to build a simple AirBnB booking assistant.
+                    Welcome to the Pipeable AirBnB Demo. Pipeable is an open-source iOS and (soon) Android SDK that allows developers to programmatically control webviews in mobile apps. Here we demonstrate how to build a simple AirBnB booking assistant.
                     """
                 ).frame(maxWidth: .infinity)
                     .font(.callout).padding(.all, 10)

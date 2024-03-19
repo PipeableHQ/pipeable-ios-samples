@@ -11,14 +11,13 @@
 		2B457A9F2BA7A46900B3A7DC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B457A9E2BA7A46900B3A7DC /* ContentView.swift */; };
 		2B457AA12BA7A46F00B3A7DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B457AA02BA7A46F00B3A7DC /* Assets.xcassets */; };
 		2B457AA42BA7A46F00B3A7DC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B457AA32BA7A46F00B3A7DC /* Preview Assets.xcassets */; };
-		2B457AAC2BA7A4C100B3A7DC /* PipeableSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 2B457AAB2BA7A4C100B3A7DC /* PipeableSDK */; settings = {ATTRIBUTES = (Required, ); }; };
 		2B457AAF2BA7A5A400B3A7DC /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 2B457AAE2BA7A5A400B3A7DC /* OpenAI */; };
+		2B525F3A2BA93AE6001553CA /* PipeableSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 2B525F392BA93AE6001553CA /* PipeableSDK */; };
 		2B886D792BA7A705007DB63D /* AirBnBTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B886D762BA7A705007DB63D /* AirBnBTools.swift */; };
 		2B886D7A2BA7A705007DB63D /* Agent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B886D772BA7A705007DB63D /* Agent.swift */; };
 		2B886D7B2BA7A705007DB63D /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B886D782BA7A705007DB63D /* WebView.swift */; };
 		2B886D7D2BA7A785007DB63D /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B886D7C2BA7A785007DB63D /* ToastView.swift */; };
 		2B886D7F2BA7A7B6007DB63D /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B886D7E2BA7A7B6007DB63D /* StatusView.swift */; };
-		A44777592BA8E4900081C823 /* PipeableSDK in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 2B457AAB2BA7A4C100B3A7DC /* PipeableSDK */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,7 +27,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				A44777592BA8E4900081C823 /* PipeableSDK in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -54,7 +52,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B457AAF2BA7A5A400B3A7DC /* OpenAI in Frameworks */,
-				2B457AAC2BA7A4C100B3A7DC /* PipeableSDK in Frameworks */,
+				2B525F3A2BA93AE6001553CA /* PipeableSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,8 +117,8 @@
 			);
 			name = AirBnBAgent;
 			packageProductDependencies = (
-				2B457AAB2BA7A4C100B3A7DC /* PipeableSDK */,
 				2B457AAE2BA7A5A400B3A7DC /* OpenAI */,
+				2B525F392BA93AE6001553CA /* PipeableSDK */,
 			);
 			productName = AirBnBAgent;
 			productReference = 2B457A992BA7A46900B3A7DC /* AirBnBAgent.app */;
@@ -151,8 +149,8 @@
 			);
 			mainGroup = 2B457A902BA7A46900B3A7DC;
 			packageReferences = (
-				2B457AAA2BA7A4C100B3A7DC /* XCRemoteSwiftPackageReference "pipeable-ios" */,
 				2B457AAD2BA7A5A300B3A7DC /* XCRemoteSwiftPackageReference "OpenAI" */,
+				2B525F382BA93AE6001553CA /* XCRemoteSwiftPackageReference "pipeable-ios" */,
 			);
 			productRefGroup = 2B457A9A2BA7A46900B3A7DC /* Products */;
 			projectDirPath = "";
@@ -394,14 +392,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		2B457AAA2BA7A4C100B3A7DC /* XCRemoteSwiftPackageReference "pipeable-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/PipeableHQ/pipeable-ios.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		2B457AAD2BA7A5A300B3A7DC /* XCRemoteSwiftPackageReference "OpenAI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MacPaw/OpenAI.git";
@@ -410,18 +400,26 @@
 				kind = branch;
 			};
 		};
+		2B525F382BA93AE6001553CA /* XCRemoteSwiftPackageReference "pipeable-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/PipeableHQ/pipeable-ios.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		2B457AAB2BA7A4C100B3A7DC /* PipeableSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 2B457AAA2BA7A4C100B3A7DC /* XCRemoteSwiftPackageReference "pipeable-ios" */;
-			productName = PipeableSDK;
-		};
 		2B457AAE2BA7A5A400B3A7DC /* OpenAI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2B457AAD2BA7A5A300B3A7DC /* XCRemoteSwiftPackageReference "OpenAI" */;
 			productName = OpenAI;
+		};
+		2B525F392BA93AE6001553CA /* PipeableSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2B525F382BA93AE6001553CA /* XCRemoteSwiftPackageReference "pipeable-ios" */;
+			productName = PipeableSDK;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

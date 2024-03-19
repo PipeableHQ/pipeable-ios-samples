@@ -1,5 +1,4 @@
 {
-  "originHash" : "818e84d5f1f502ef388570dfac36b1be2af8e729f69e3f600bc60b00c0c3e8ca",
   "pins" : [
     {
       "identity" : "openai",
@@ -20,5 +19,5 @@
       }
     }
   ],
-  "version" : 3
+  "version" : 2
 }
