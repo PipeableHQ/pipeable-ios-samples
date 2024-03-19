@@ -16,7 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2B457A7A2BA7743700B3A7DC /* amazonTransactionsSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = amazonTransactionsSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B457A7A2BA7743700B3A7DC /* AmazonTransactionsSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AmazonTransactionsSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B457A7D2BA7743700B3A7DC /* amazonTransactionsSampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = amazonTransactionsSampleApp.swift; sourceTree = "<group>"; };
 		2B457A7F2BA7743700B3A7DC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2B457A812BA7743B00B3A7DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -47,7 +47,7 @@
 		2B457A7B2BA7743700B3A7DC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2B457A7A2BA7743700B3A7DC /* amazonTransactionsSample.app */,
+				2B457A7A2BA7743700B3A7DC /* AmazonTransactionsSample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -75,9 +75,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2B457A792BA7743700B3A7DC /* amazonTransactionsSample */ = {
+		2B457A792BA7743700B3A7DC /* AmazonTransactionsSample */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2B457A882BA7743B00B3A7DC /* Build configuration list for PBXNativeTarget "amazonTransactionsSample" */;
+			buildConfigurationList = 2B457A882BA7743B00B3A7DC /* Build configuration list for PBXNativeTarget "AmazonTransactionsSample" */;
 			buildPhases = (
 				2B457A762BA7743700B3A7DC /* Sources */,
 				2B457A772BA7743700B3A7DC /* Frameworks */,
@@ -87,12 +87,12 @@
 			);
 			dependencies = (
 			);
-			name = amazonTransactionsSample;
+			name = AmazonTransactionsSample;
 			packageProductDependencies = (
 				2B457A8E2BA774F100B3A7DC /* PipeableSDK */,
 			);
 			productName = amazonTransactionsSample;
-			productReference = 2B457A7A2BA7743700B3A7DC /* amazonTransactionsSample.app */;
+			productReference = 2B457A7A2BA7743700B3A7DC /* AmazonTransactionsSample.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -126,7 +126,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2B457A792BA7743700B3A7DC /* amazonTransactionsSample */,
+				2B457A792BA7743700B3A7DC /* AmazonTransactionsSample */,
 			);
 		};
 /* End PBXProject section */
@@ -344,7 +344,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2B457A882BA7743B00B3A7DC /* Build configuration list for PBXNativeTarget "amazonTransactionsSample" */ = {
+		2B457A882BA7743B00B3A7DC /* Build configuration list for PBXNativeTarget "AmazonTransactionsSample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2B457A892BA7743B00B3A7DC /* Debug */,
