@@ -328,7 +328,7 @@ class AirBnBTools {
         let searchBtn = try await page.waitForSelector("footer > a", visible: true)
         try await searchBtn?.click()
 
-        _ = try await page.waitForXHR("/StaysSearch/")
+        _ = try await page.waitForResponse("/StaysSearch/")
     }
 
     private func selectTopAirBnB() async throws {
@@ -340,7 +340,7 @@ class AirBnBTools {
 
         try await airbnbLink.click()
 
-        _ = try await page.waitForXHR("stayCheckout")
+        _ = try await page.waitForResponse("stayCheckout")
 
         // Dismiss translation dialog if it appears, give it 3s to appear.
         do {
