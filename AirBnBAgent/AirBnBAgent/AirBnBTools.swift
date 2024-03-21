@@ -44,7 +44,11 @@ class AirBnBTools {
         _ = try await page.goto("https://www.airbnb.com/login", waitUntil: .networkidle)
         // Wait for the user to be redirected back to the home page, we assume this means the
         // user logged in successfully. Allow for more time for them to login.
-        _ = try await page.waitForURL({ url in url == "https://www.airbnb.com/" }, timeout: 180_000)
+        _ = try await page.waitForURL(
+            { url in url == "https://www.airbnb.com/" },
+            timeout: 180_000,
+            ignoreNavigationErrors: true // So that we ignore errors caused by Login with Apple.
+        )
     }
 
     // Function for GPT to call to record the user's destination choice
